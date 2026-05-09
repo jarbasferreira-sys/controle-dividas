@@ -229,24 +229,78 @@ td{padding:3px 5px;border:1px solid #e0e0e0;white-space:nowrap}
 </div>
 <div id="userBar" style="display:none;position:fixed;top:0;right:0;z-index:9999;padding:6px 16px;background:rgba(0,0,0,.3);border-radius:0 0 0 8px;font-size:11px;color:rgba(255,255,255,.7)">
   <span id="userEmail"></span>
-  <button onclick="doLogout()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:3px 10px;border-radius:4px;font-size:10px;cursor:pointer;margin-left:8px">Sair</button>
+  <button onclick="showChangePassword()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:3px 10px;border-radius:4px;font-size:10px;cursor:pointer;margin-left:8px">🔑 Senha</button>
+  <button onclick="doLogout()" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;padding:3px 10px;border-radius:4px;font-size:10px;cursor:pointer;margin-left:4px">Sair</button>
   <button id="adminBtn" onclick="showAdminPanel()" style="display:none;background:rgba(59,130,246,.3);border:1px solid rgba(59,130,246,.4);color:#93c5fd;padding:3px 10px;border-radius:4px;font-size:10px;cursor:pointer;margin-left:4px">👤 Admin</button>
 </div>
+<!-- CHANGE PASSWORD MODAL -->
+<div id="changePwdModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:99999;align-items:center;justify-content:center">
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:0;width:380px;box-shadow:0 20px 60px rgba(0,0,0,.4);overflow:hidden">
+    <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);padding:14px 20px;display:flex;justify-content:space-between;align-items:center">
+      <h3 style="margin:0;color:#fff;font-size:14px">🔑 Alterar Senha</h3>
+      <button onclick="document.getElementById('changePwdModal').style.display='none'" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;width:24px;height:24px;border-radius:6px;font-size:12px;cursor:pointer">✕</button>
+    </div>
+    <div style="padding:20px">
+      <div style="margin-bottom:12px">
+        <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px">Senha atual</label>
+        <input type="password" id="currentPwd" placeholder="••••••••" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;background:var(--bg2);color:var(--text);font-size:13px;box-sizing:border-box">
+      </div>
+      <div style="margin-bottom:12px">
+        <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px">Nova senha</label>
+        <input type="password" id="newPwd" placeholder="Mínimo 6 caracteres" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;background:var(--bg2);color:var(--text);font-size:13px;box-sizing:border-box">
+      </div>
+      <div style="margin-bottom:16px">
+        <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px">Confirmar nova senha</label>
+        <input type="password" id="confirmPwd" placeholder="Repita a nova senha" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;background:var(--bg2);color:var(--text);font-size:13px;box-sizing:border-box" onkeypress="if(event.key==='Enter')doChangePassword()">
+      </div>
+      <button onclick="doChangePassword()" style="width:100%;padding:12px;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer">Alterar Senha</button>
+      <div id="changePwdMsg" style="font-size:12px;margin-top:8px;min-height:20px;text-align:center"></div>
+    </div>
+  </div>
+</div>
 <div id="adminPanel" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:99998;align-items:center;justify-content:center">
-  <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:24px;width:450px;max-height:80vh;overflow-y:auto">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
-      <h3 style="margin:0;color:var(--text)">👤 Gerenciar Usuários</h3>
-      <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:none;border:none;color:var(--text2);font-size:18px;cursor:pointer">✕</button>
+  <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:0;width:520px;max-height:85vh;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)">
+    <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);padding:16px 24px;display:flex;justify-content:space-between;align-items:center">
+      <div><h3 style="margin:0;color:#fff;font-size:16px">👤 Painel Administrativo</h3><div style="color:rgba(255,255,255,.5);font-size:10px;margin-top:2px">Gerenciamento de Usuários</div></div>
+      <button onclick="document.getElementById('adminPanel').style.display='none'" style="background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;width:28px;height:28px;border-radius:6px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
     </div>
-    <div style="margin-bottom:16px;padding:12px;background:var(--bg2);border-radius:8px">
-      <div style="font-size:11px;color:var(--text2);margin-bottom:8px">Criar novo usuário</div>
-      <input type="email" id="newUserEmail" placeholder="email@vrzblindados.com.br" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:4px;background:var(--bg);color:var(--text);font-size:12px;box-sizing:border-box;margin-bottom:6px">
-      <input type="text" id="newUserPass" placeholder="Senha inicial" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:4px;background:var(--bg);color:var(--text);font-size:12px;box-sizing:border-box;margin-bottom:6px">
-      <input type="text" id="newUserName" placeholder="Nome (ex: Henrique)" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:4px;background:var(--bg);color:var(--text);font-size:12px;box-sizing:border-box;margin-bottom:8px">
-      <button onclick="createUser()" style="width:100%;padding:8px;background:#3b82f6;color:#fff;border:none;border-radius:4px;font-size:12px;cursor:pointer">+ Criar Usuário</button>
-      <div id="adminMsg" style="font-size:11px;margin-top:6px;min-height:16px"></div>
+    <div style="display:flex;border-bottom:1px solid var(--border)">
+      <button id="tabNewUser" onclick="switchAdminTab('new')" style="flex:1;padding:10px;background:var(--bg2);border:none;color:var(--text);font-size:12px;cursor:pointer;border-bottom:2px solid #3b82f6;font-weight:600">➕ Criar Usuário</button>
+      <button id="tabListUsers" onclick="switchAdminTab('list')" style="flex:1;padding:10px;background:var(--bg);border:none;color:var(--text2);font-size:12px;cursor:pointer;border-bottom:2px solid transparent">📋 Usuários (<span id="userCount">0</span>)</button>
     </div>
-    <div id="userList" style="font-size:12px"></div>
+    <div style="max-height:calc(85vh - 130px);overflow-y:auto;padding:20px">
+      <div id="adminTabNew">
+        <div style="padding:16px;background:var(--bg2);border-radius:8px;border:1px solid var(--border)">
+          <div style="margin-bottom:12px">
+            <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;font-weight:600">📧 E-mail</label>
+            <input type="email" id="newUserEmail" placeholder="nome@vrzblindados.com.br" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);font-size:13px;box-sizing:border-box">
+          </div>
+          <div style="margin-bottom:12px">
+            <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;font-weight:600">🔒 Senha inicial</label>
+            <div style="position:relative">
+              <input type="password" id="newUserPass" placeholder="Mínimo 6 caracteres" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);font-size:13px;box-sizing:border-box;padding-right:40px">
+              <button onclick="togglePassVis()" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text2);cursor:pointer;font-size:14px" id="passToggle">👁️</button>
+            </div>
+          </div>
+          <div style="margin-bottom:12px">
+            <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;font-weight:600">👤 Nome completo</label>
+            <input type="text" id="newUserName" placeholder="Ex: Henrique Alves" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);font-size:13px;box-sizing:border-box">
+          </div>
+          <div style="margin-bottom:16px">
+            <label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;font-weight:600">🏷️ Perfil</label>
+            <select id="newUserRole" style="width:100%;padding:10px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text);font-size:13px;box-sizing:border-box">
+              <option value="user">Usuário (visualiza e faz baixas)</option>
+              <option value="admin">Administrador (gerencia usuários)</option>
+            </select>
+          </div>
+          <button onclick="createUser()" style="width:100%;padding:12px;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer">+ Criar Usuário</button>
+          <div id="adminMsg" style="font-size:12px;margin-top:8px;min-height:20px;text-align:center"></div>
+        </div>
+      </div>
+      <div id="adminTabList" style="display:none">
+        <div id="userList"></div>
+      </div>
+    </div>
   </div>
 </div>
 <nav class="sidebar">
@@ -446,60 +500,186 @@ function doLogout() {
   firebase.auth().signOut();
 }
 
+function showChangePassword() {
+  document.getElementById('changePwdModal').style.display = 'flex';
+  document.getElementById('currentPwd').value = '';
+  document.getElementById('newPwd').value = '';
+  document.getElementById('confirmPwd').value = '';
+  document.getElementById('changePwdMsg').innerHTML = '';
+}
+
+function doChangePassword() {
+  const current = document.getElementById('currentPwd').value;
+  const newPwd = document.getElementById('newPwd').value;
+  const confirm = document.getElementById('confirmPwd').value;
+  const msgEl = document.getElementById('changePwdMsg');
+  
+  if (!current) { msgEl.innerHTML = '<span style="color:#ef4444">⚠️ Digite a senha atual</span>'; return; }
+  if (!newPwd || newPwd.length < 6) { msgEl.innerHTML = '<span style="color:#ef4444">⚠️ Nova senha deve ter pelo menos 6 caracteres</span>'; return; }
+  if (newPwd !== confirm) { msgEl.innerHTML = '<span style="color:#ef4444">⚠️ As senhas não conferem</span>'; return; }
+  if (current === newPwd) { msgEl.innerHTML = '<span style="color:#ef4444">⚠️ A nova senha deve ser diferente da atual</span>'; return; }
+  
+  msgEl.innerHTML = '<span style="color:var(--text2)">⏳ Alterando...</span>';
+  
+  // Re-authenticate first
+  const user = firebase.auth().currentUser;
+  const credential = firebase.auth.EmailAuthProvider.credential(user.email, current);
+  user.reauthenticateWithCredential(credential)
+    .then(() => user.updatePassword(newPwd))
+    .then(() => {
+      msgEl.innerHTML = '<span style="color:#22c55e">✅ Senha alterada com sucesso!</span>';
+      document.getElementById('currentPwd').value = '';
+      document.getElementById('newPwd').value = '';
+      document.getElementById('confirmPwd').value = '';
+      setTimeout(() => { document.getElementById('changePwdModal').style.display = 'none'; }, 2000);
+    })
+    .catch(e => {
+      const msgs = {'auth/wrong-password':'Senha atual incorreta','auth/weak-password':'Nova senha muito fraca','auth/requires-recent-login':'Sessão expirada — faça logout e login novamente','auth/invalid-credential':'Senha atual incorreta'};
+      msgEl.innerHTML = '<span style="color:#ef4444">❌ ' + (msgs[e.code] || e.message) + '</span>';
+    });
+}
+
+function adminResetPassword(email, name) {
+  if (!confirm('Enviar email de redefinição de senha para ' + name + ' (' + email + ')?\\n\\nO usuário receberá um link para criar uma nova senha.')) return;
+  firebase.auth().sendPasswordResetEmail(email)
+    .then(() => { alert('✅ Email de redefinição enviado para:\\n' + email + '\\n\\nO usuário deve verificar a caixa de entrada (e spam).'); })
+    .catch(e => { alert('❌ Erro ao enviar: ' + e.message); });
+}
+
 function showAdminPanel() {
   document.getElementById('adminPanel').style.display = 'flex';
+  switchAdminTab('new');
   loadUserList();
+}
+
+function switchAdminTab(tab) {
+  const tabNew = document.getElementById('tabNewUser');
+  const tabList = document.getElementById('tabListUsers');
+  const panelNew = document.getElementById('adminTabNew');
+  const panelList = document.getElementById('adminTabList');
+  if (tab === 'new') {
+    tabNew.style.background = 'var(--bg2)'; tabNew.style.color = 'var(--text)'; tabNew.style.borderBottom = '2px solid #3b82f6'; tabNew.style.fontWeight = '600';
+    tabList.style.background = 'var(--bg)'; tabList.style.color = 'var(--text2)'; tabList.style.borderBottom = '2px solid transparent'; tabList.style.fontWeight = '400';
+    panelNew.style.display = 'block'; panelList.style.display = 'none';
+  } else {
+    tabList.style.background = 'var(--bg2)'; tabList.style.color = 'var(--text)'; tabList.style.borderBottom = '2px solid #3b82f6'; tabList.style.fontWeight = '600';
+    tabNew.style.background = 'var(--bg)'; tabNew.style.color = 'var(--text2)'; tabNew.style.borderBottom = '2px solid transparent'; tabNew.style.fontWeight = '400';
+    panelList.style.display = 'block'; panelNew.style.display = 'none';
+    loadUserList();
+  }
+}
+
+function togglePassVis() {
+  const inp = document.getElementById('newUserPass');
+  const btn = document.getElementById('passToggle');
+  if (inp.type === 'password') { inp.type = 'text'; btn.textContent = '🙈'; }
+  else { inp.type = 'password'; btn.textContent = '👁️'; }
 }
 
 function createUser() {
   const email = document.getElementById('newUserEmail').value.trim();
   const pass = document.getElementById('newUserPass').value;
   const name = document.getElementById('newUserName').value.trim();
+  const role = document.getElementById('newUserRole').value;
   const msgEl = document.getElementById('adminMsg');
-  if (!email || !pass) { msgEl.innerHTML = '<span style="color:var(--red)">Preencha email e senha</span>'; return; }
-  if (pass.length < 6) { msgEl.innerHTML = '<span style="color:var(--red)">Senha deve ter pelo menos 6 caracteres</span>'; return; }
-  msgEl.innerHTML = '<span style="color:var(--text2)">Criando...</span>';
+  if (!email || !pass) { msgEl.innerHTML = '<span style="color:#ef4444">⚠️ Preencha email e senha</span>'; return; }
+  if (pass.length < 6) { msgEl.innerHTML = '<span style="color:#ef4444">⚠️ Senha deve ter pelo menos 6 caracteres</span>'; return; }
+  if (!name) { msgEl.innerHTML = '<span style="color:#ef4444">⚠️ Preencha o nome</span>'; return; }
+  msgEl.innerHTML = '<span style="color:var(--text2)">⏳ Criando usuário...</span>';
   
-  // Save current user to re-login after creating new user
-  const currentEmail = _currentUser.email;
-  // Use Firebase Admin via secondary app to create user without signing out
-  const secondaryApp = firebase.initializeApp(FIREBASE_CONFIG, 'Secondary');
+  const secondaryApp = firebase.initializeApp(FIREBASE_CONFIG, 'Secondary' + Date.now());
   secondaryApp.auth().createUserWithEmailAndPassword(email, pass)
     .then(cred => {
-      // Save user info in database
       firebase.database().ref('vrz_dividas/users/' + cred.user.uid).set({
-        email: email, name: name || email.split('@')[0],
-        role: 'user', createdAt: new Date().toISOString(),
-        createdBy: _currentUser.email
+        email: email, name: name,
+        role: role, createdAt: new Date().toISOString(),
+        createdBy: _currentUser.email, active: true
       });
-      msgEl.innerHTML = '<span style="color:var(--green)">✅ Usuário criado: ' + email + '</span>';
+      if (role === 'admin') ADMIN_EMAILS.push(email);
+      msgEl.innerHTML = '<span style="color:#22c55e">✅ Usuário criado com sucesso!</span><br><span style="color:var(--text2);font-size:10px">' + name + ' (' + email + ') — ' + (role==='admin'?'Administrador':'Usuário') + '</span>';
       document.getElementById('newUserEmail').value = '';
       document.getElementById('newUserPass').value = '';
       document.getElementById('newUserName').value = '';
+      document.getElementById('newUserRole').value = 'user';
       secondaryApp.auth().signOut();
       secondaryApp.delete();
       loadUserList();
+      setTimeout(() => { switchAdminTab('list'); }, 1500);
     })
     .catch(e => {
       const msgs = {'auth/email-already-in-use':'Email já cadastrado','auth/weak-password':'Senha muito fraca (mín. 6 chars)','auth/invalid-email':'Email inválido'};
-      msgEl.innerHTML = '<span style="color:var(--red)">' + (msgs[e.code] || e.message) + '</span>';
+      msgEl.innerHTML = '<span style="color:#ef4444">❌ ' + (msgs[e.code] || e.message) + '</span>';
       try { secondaryApp.delete(); } catch(ex) {}
     });
 }
 
+function deleteUser(uid, email, name) {
+  if (!confirm('Tem certeza que deseja remover o usuário "' + name + '" (' + email + ')?\\n\\nNota: O usuário será removido da lista mas a conta no Firebase Auth continua existindo. Para remover completamente, exclua também no Firebase Console > Authentication.')) return;
+  firebase.database().ref('vrz_dividas/users/' + uid).remove().then(() => {
+    loadUserList();
+  });
+}
+
+function toggleUserActive(uid, currentActive) {
+  firebase.database().ref('vrz_dividas/users/' + uid).update({
+    active: !currentActive
+  }).then(() => loadUserList());
+}
+
+function toggleUserRole(uid, currentRole, email) {
+  const newRole = currentRole === 'admin' ? 'user' : 'admin';
+  if (newRole === 'admin' && !confirm('Promover ' + email + ' a Administrador?\\n\\nAdministradores podem criar e gerenciar outros usuários.')) return;
+  firebase.database().ref('vrz_dividas/users/' + uid).update({ role: newRole }).then(() => {
+    if (newRole === 'admin' && !ADMIN_EMAILS.includes(email)) ADMIN_EMAILS.push(email);
+    loadUserList();
+  });
+}
+
 function loadUserList() {
   const el = document.getElementById('userList');
+  el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text2)">Carregando...</div>';
   firebase.database().ref('vrz_dividas/users').once('value').then(snap => {
     const users = snap.val() || {};
-    let h = '<div style="font-weight:600;margin-bottom:8px;color:var(--text)">Usuários cadastrados</div>';
     const entries = Object.entries(users);
-    if (entries.length === 0) { h += '<div style="color:var(--text2)">Nenhum usuário cadastrado</div>'; }
+    document.getElementById('userCount').textContent = entries.length;
+    
+    if (entries.length === 0) {
+      el.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text2)"><div style="font-size:32px;margin-bottom:8px">👥</div>Nenhum usuário cadastrado<br><span style="font-size:10px">Crie o primeiro na aba "Criar Usuário"</span></div>';
+      return;
+    }
+    
+    let h = '';
+    entries.sort((a,b) => (a[1].name||'').localeCompare(b[1].name||''));
     entries.forEach(([uid, u]) => {
-      const isAdmin = ADMIN_EMAILS.includes(u.email);
-      h += '<div style="padding:8px;margin-bottom:4px;background:var(--bg2);border-radius:6px;display:flex;justify-content:space-between;align-items:center">';
-      h += '<div><strong style="color:var(--text)">' + (u.name||'—') + '</strong><br><span style="font-size:10px;color:var(--text2)">' + u.email + '</span></div>';
-      h += '<span style="font-size:9px;padding:2px 8px;border-radius:4px;background:' + (isAdmin ? 'rgba(59,130,246,.15);color:#3b82f6' : 'rgba(34,197,94,.15);color:#22c55e') + '">' + (isAdmin ? 'Admin' : 'Usuário') + '</span>';
+      const isAdmin = u.role === 'admin' || ADMIN_EMAILS.includes(u.email);
+      const isActive = u.active !== false;
+      const isSelf = _currentUser && u.email === _currentUser.email;
+      const created = u.createdAt ? new Date(u.createdAt).toLocaleDateString('pt-BR') : '—';
+      
+      h += '<div style="padding:12px;margin-bottom:8px;background:var(--bg2);border-radius:8px;border:1px solid var(--border);' + (!isActive ? 'opacity:.5;' : '') + '">';
+      h += '<div style="display:flex;justify-content:space-between;align-items:flex-start">';
+      h += '<div style="flex:1">';
+      h += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">';
+      h += '<strong style="color:var(--text);font-size:13px">' + (u.name || '—') + '</strong>';
+      h += '<span style="font-size:9px;padding:2px 8px;border-radius:4px;background:' + (isAdmin ? 'rgba(59,130,246,.15);color:#3b82f6' : 'rgba(34,197,94,.15);color:#22c55e') + '">' + (isAdmin ? '🛡️ Admin' : '👤 Usuário') + '</span>';
+      if (!isActive) h += '<span style="font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(239,68,68,.15);color:#ef4444">Inativo</span>';
+      if (isSelf) h += '<span style="font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(245,158,11,.15);color:#f59e0b">Você</span>';
       h += '</div>';
+      h += '<div style="font-size:11px;color:var(--text2)">' + u.email + '</div>';
+      h += '<div style="font-size:10px;color:var(--text2);margin-top:4px">Criado em ' + created;
+      if (u.createdBy) h += ' por ' + u.createdBy.split('@')[0];
+      h += '</div></div>';
+      
+      if (!isSelf) {
+        h += '<div style="display:flex;gap:4px;flex-shrink:0">';
+        h += '<button onclick="adminResetPassword(\'' + u.email + '\',\'' + (u.name||'') + '\')" style="background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);color:#a855f7;padding:4px 8px;border-radius:4px;font-size:9px;cursor:pointer" title="Enviar email de redefinição de senha">🔑</button>';
+        h += '<button onclick="toggleUserRole(\'' + uid + '\',\'' + (u.role||'user') + '\',\'' + u.email + '\')" style="background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);color:#3b82f6;padding:4px 8px;border-radius:4px;font-size:9px;cursor:pointer" title="' + (isAdmin ? 'Rebaixar para Usuário' : 'Promover a Admin') + '">' + (isAdmin ? '⬇️' : '⬆️') + '</button>';
+        h += '<button onclick="toggleUserActive(\'' + uid + '\',' + isActive + ')" style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);color:#f59e0b;padding:4px 8px;border-radius:4px;font-size:9px;cursor:pointer" title="' + (isActive ? 'Desativar' : 'Ativar') + '">' + (isActive ? '🚫' : '✅') + '</button>';
+        h += '<button onclick="deleteUser(\'' + uid + '\',\'' + u.email + '\',\'' + (u.name||'') + '\')" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#ef4444;padding:4px 8px;border-radius:4px;font-size:9px;cursor:pointer" title="Remover">🗑️</button>';
+        h += '</div>';
+      }
+      
+      h += '</div></div>';
     });
     el.innerHTML = h;
   });
