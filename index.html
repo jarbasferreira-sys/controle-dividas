@@ -88,49 +88,43 @@ h2{font-size:20px;font-weight:700;margin-bottom:20px}h2 span{color:var(--text2);
   .sidebar.open{left:0}
   .sidebar-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.4);z-index:9989}
   .sidebar-overlay.show{display:block}
-  .main{margin-left:0;padding:10px;padding-top:52px}
-  #hamburger{display:flex!important}
-  #userBar{top:0;right:0;left:0;border-radius:0;padding:6px 10px;display:flex!important;align-items:center;justify-content:flex-end;gap:6px;background:rgba(0,0,0,.5);backdrop-filter:blur(8px)}
-  #userBar #userEmail{max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:9px}
-  #userBar button{padding:3px 6px;font-size:9px}
-  /* Cards stack vertically */
-  .ch{flex-direction:column;gap:8px;margin-bottom:12px}
-  .ch .ib{min-width:unset;padding:10px 14px}
-  .ch .ib .val{font-size:13px}
-  .ch .ib .label{font-size:9px}
-  /* Tables scroll horizontally */
-  .tw,.st{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -10px;padding:0 10px}
-  .tw table,.st table{font-size:7px;min-width:500px}
-  table{min-width:400px}
-  /* Alerts compact */
-  .alert-card{padding:10px;gap:8px;flex-direction:column}
-  .alert-icon{font-size:16px}
-  /* Charts single column */
+  .main{margin-left:0;padding:12px;padding-top:56px;padding-bottom:20px}
+  #hamburger{display:flex!important;position:fixed;top:10px;left:10px;z-index:9991}
+  #userBar{top:0;right:0;left:0;border-radius:0;padding:10px 12px 10px 56px;display:flex!important;align-items:center;justify-content:flex-end;gap:6px;background:linear-gradient(135deg,rgba(26,26,46,.95),rgba(22,33,62,.95));backdrop-filter:blur(10px);box-shadow:0 2px 10px rgba(0,0,0,.3);border-bottom:1px solid rgba(255,255,255,.08);min-height:36px}
+  #userBar #userEmail{max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;margin-right:auto;color:rgba(255,255,255,.6)}
+  #userBar button{padding:4px 8px;font-size:9px;border-radius:4px}
+  .ch{flex-direction:column!important;gap:10px;margin-bottom:14px}
+  .ch .ib{min-width:unset!important;width:100%;padding:14px 16px;border-radius:10px}
+  .ch .ib .val{font-size:16px;font-weight:700}
+  .ch .ib .label{font-size:9px;letter-spacing:.5px;margin-bottom:4px}
+  .tw,.st{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -12px;padding:0 12px;border-radius:8px}
+  .tw table,.st table{font-size:8px;min-width:520px}
+  table{min-width:420px;border-radius:8px;overflow:hidden}
+  table th{padding:6px 4px;font-size:8px;white-space:nowrap}
+  table td{padding:5px 4px}
+  h2{font-size:16px!important;margin-bottom:12px!important}
+  h3{font-size:13px!important;margin-bottom:8px!important}
+  .alert-card{padding:12px;gap:10px;border-radius:10px;margin-bottom:8px}
+  .alert-icon{font-size:18px;flex-shrink:0}
+  .alert-title{font-size:12px}
+  .alert-desc{font-size:10px}
   .chart-grid{grid-template-columns:1fr;gap:12px}
-  .chart-box{padding:12px}
-  .chart-box canvas{height:200px!important}
-  /* Headings smaller */
-  h2{font-size:16px!important}
-  h3{font-size:13px!important}
-  /* Modals responsive */
-  #loginOverlay>div:nth-child(2){width:90%!important;max-width:340px;padding:20px!important}
-  #loginOverlay>div:first-child{font-size:22px!important;margin-bottom:20px!important}
-  #adminPanel>div{width:95%!important;max-width:480px;margin:10px}
-  .modal{width:95%!important;max-width:none!important;padding:14px!important;max-height:85vh!important}
-  /* Notification bar compact */
-  #notifBar{flex-wrap:wrap;font-size:10px;padding:6px 10px!important}
-  #notifBar>div{flex-direction:column;gap:4px}
-  /* Export buttons compact */
+  .chart-box{padding:12px;border-radius:10px}
+  .chart-box canvas{height:180px!important}
+  div[style*="display:flex"][style*="gap:16px"]{flex-direction:column!important;gap:10px!important}
+  div[style*="display:grid"][style*="grid-template-columns"]{grid-template-columns:1fr!important;gap:10px!important}
   .main>div:first-child{flex-wrap:wrap;gap:6px}
-  .main button,.main a{font-size:10px!important;padding:6px 10px!important}
-  /* Date input smaller */
-  input[type="date"]{font-size:12px;padding:6px 8px}
-  /* Filter section */
-  select{font-size:11px;padding:6px 8px}
-  /* Compact info boxes */
-  div[style*="display:flex"][style*="gap:16px"]{flex-direction:column;gap:8px}
-  /* Adjust floating chat */
-  .fab-chat{bottom:12px!important;right:12px!important;width:44px!important;height:44px!important;font-size:20px!important}
+  input[type="date"]{font-size:13px;padding:8px 10px;border-radius:6px;width:100%;box-sizing:border-box}
+  select{font-size:12px;padding:8px 10px;border-radius:6px}
+  #notifBar{flex-wrap:wrap;font-size:10px;padding:8px 12px!important;border-radius:10px!important;margin-bottom:12px;gap:8px}
+  #loginOverlay>div:nth-child(2){width:88%!important;max-width:340px;padding:24px!important;border-radius:16px!important}
+  #loginOverlay>div:first-child div:first-child{font-size:22px!important}
+  #adminPanel>div{width:94%!important;max-width:480px;margin:10px;border-radius:14px!important}
+  #changePwdModal>div{width:92%!important;max-width:380px;border-radius:14px!important}
+  .modal{width:95%!important;max-width:none!important;padding:14px!important;max-height:85vh!important;border-radius:14px!important}
+  .chat-fab{bottom:16px!important;right:16px!important;width:48px!important;height:48px!important;font-size:22px!important;box-shadow:0 4px 15px rgba(0,0,0,.3)!important}
+  *{-webkit-tap-highlight-color:rgba(59,130,246,.15)}
+  .sidebar a{min-height:40px!important;padding-top:8px!important;padding-bottom:8px!important;display:flex;align-items:center}
 }
 ul{list-style:disc;margin-left:20px}ul li{margin-bottom:4px}
 @media print{body,html{display:none!important}} /* disable default print — we use custom window */
